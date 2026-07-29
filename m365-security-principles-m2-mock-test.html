@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Microsoft 365 Security Principles (Module 2) — K21 Academy Mock Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --bg:#F7F8FA; --surface:#FFFFFF; --border:#E8EAEE;
+    --text-1:#111827; --text-2:#4B5563; --text-3:#9CA3AF;
+    --green:#8DC63F; --green-mid:#79B030; --green-bg:#F1F8E8; --green-dark:#4A7A1B;
+    --navy:#1A1248; --navy-mid:#2E2080; --blue:#1B9BD9;
+    --red:#E5484D; --red-bg:#FDECEC; --amber:#F5A623; --amber-bg:#FFF6E5;
+    --radius:16px; --radius-lg:24px;
+  }
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-1);-webkit-font-smoothing:antialiased;line-height:1.5;}
+  .screen{display:none;min-height:100vh;}
+  .screen.active{display:block;}
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+
+  /* ---------- Top brand bar ---------- */
+  .topbar{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+  .topbar .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;}
+  .topbar .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--green);}
+  .topbar .badge{background:rgba(141,198,63,.18);color:var(--green);border:1px solid rgba(141,198,63,.4);padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;}
+
+  /* ---------- Intro Screen ---------- */
+  #screen-intro .wrap{max-width:900px;margin:0 auto;padding:40px 20px 80px;}
+  .intro-hero{text-align:center;margin-bottom:32px;}
+  .intro-hero .eyebrow{display:inline-block;background:var(--green-bg);color:var(--green-dark);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:6px 14px;border-radius:999px;margin-bottom:14px;}
+  .intro-hero h1{font-size:32px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+  .intro-hero p{color:var(--text-2);font-size:15px;max-width:640px;margin:0 auto;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0;}
+  .stat-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px 14px;text-align:center;}
+  .stat-card .label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:6px;}
+  .stat-card .value{font-size:20px;font-weight:800;color:var(--navy);}
+
+  .domain-table{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:28px;}
+  .domain-table h3{padding:18px 22px 0;font-size:16px;font-weight:800;color:var(--navy);}
+  .domain-table table{width:100%;border-collapse:collapse;margin-top:14px;}
+  .domain-table th{background:var(--green-bg);color:var(--green-dark);font-size:12px;text-transform:uppercase;letter-spacing:.03em;text-align:left;padding:10px 22px;}
+  .domain-table td{padding:12px 22px;font-size:14px;border-top:1px solid var(--border);color:var(--text-1);}
+  .domain-table td.weight{font-weight:700;color:var(--navy);text-align:right;}
+
+  .rules-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:28px;}
+  .rules-card h3{color:var(--navy);font-size:16px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .rules-card ul{list-style:none;}
+  .rules-card li{padding:9px 0 9px 26px;position:relative;font-size:14px;color:var(--text-2);border-top:1px solid var(--border);}
+  .rules-card li:first-child{border-top:none;}
+  .rules-card li::before{content:"⚠";position:absolute;left:0;color:var(--amber);font-size:13px;top:9px;}
+
+  .btn-primary{background:var(--green);color:#0f2a05;font-weight:700;font-size:16px;padding:16px 20px;border-radius:12px;width:100%;transition:.15s;box-shadow:0 4px 14px rgba(141,198,63,.35);}
+  .btn-primary:hover{background:var(--green-mid);transform:translateY(-1px);}
+  .btn-secondary{background:var(--surface);color:var(--navy);font-weight:700;font-size:14px;padding:12px 20px;border-radius:10px;border:1.5px solid var(--border);}
+  .btn-secondary:hover{border-color:var(--navy);}
+  .btn-outline-red{background:#fff;color:var(--red);border:1.5px solid var(--red);font-weight:700;padding:10px 18px;border-radius:10px;}
+
+  /* ---------- Exam Screen ---------- */
+  #screen-exam .exam-header{background:var(--navy);color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:20;}
+  .exam-header .left{display:flex;align-items:center;gap:14px;font-size:13px;}
+  .exam-header .left .title{font-weight:700;font-size:14px;}
+  .exam-header .stats{display:flex;gap:18px;font-size:13px;color:#cfd0e6;}
+  .exam-header .stats b{color:#fff;}
+  .timer-pill{background:rgba(255,255,255,.1);padding:7px 16px;border-radius:999px;font-weight:800;font-size:15px;letter-spacing:.02em;font-variant-numeric:tabular-nums;}
+  .timer-pill.warn{background:rgba(245,166,35,.25);color:#ffd48a;}
+  .timer-pill.danger{background:rgba(229,72,77,.28);color:#ffb3b5;animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+
+  .exam-layout{display:grid;grid-template-columns:1fr 300px;gap:0;max-width:1280px;margin:0 auto;align-items:start;}
+  .exam-main{padding:28px 32px 100px;}
+  .q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+  .q-count{font-size:13px;color:var(--text-3);font-weight:700;}
+  .domain-chip{background:var(--green-bg);color:var(--green-dark);font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:.02em;}
+  .flag-btn{display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--border);padding:8px 14px;border-radius:10px;font-size:13px;font-weight:700;color:var(--text-2);}
+  .flag-btn.flagged{background:var(--amber-bg);border-color:var(--amber);color:#8a5a00;}
+
+  .question-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:26px 26px 8px;margin-bottom:20px;}
+  .question-text{font-size:17px;font-weight:600;color:var(--text-1);margin-bottom:20px;line-height:1.55;}
+
+  .option{display:flex;align-items:flex-start;gap:12px;border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px;transition:.12s;}
+  .option:hover{border-color:var(--green);background:var(--green-bg);}
+  .option.selected{border-color:var(--green);background:var(--green-bg);}
+  .option .radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--text-3);flex-shrink:0;margin-top:1px;position:relative;}
+  .option.selected .radio{border-color:var(--green-mid);}
+  .option.selected .radio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--green-mid);}
+  .option .opt-text{font-size:14.5px;color:var(--text-1);}
+  .option .opt-label{font-weight:800;color:var(--navy-mid);margin-right:6px;}
+
+  .nav-buttons{display:flex;justify-content:space-between;gap:12px;margin-top:8px;}
+  .nav-buttons button{padding:12px 22px;border-radius:10px;font-weight:700;font-size:14px;}
+  .btn-prev{background:#fff;border:1.5px solid var(--border);color:var(--text-2);}
+  .btn-next{background:var(--navy);color:#fff;}
+  .btn-submit-inline{background:var(--green);color:#0f2a05;}
+
+  /* ---------- Sidebar navigator ---------- */
+  .sidebar{padding:28px 24px;position:sticky;top:64px;}
+  .sidebar-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:18px;margin-bottom:16px;}
+  .sidebar-card h4{font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--text-3);font-weight:800;margin-bottom:12px;}
+  .progress-row{display:flex;justify-content:space-between;font-size:13px;color:var(--text-2);padding:6px 0;}
+  .progress-row b{color:var(--navy);}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--text-2);margin-top:10px;}
+  .legend span{display:flex;align-items:center;gap:5px;}
+  .legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .qnav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .qnav-grid button{aspect-ratio:1;border-radius:8px;font-size:12.5px;font-weight:700;background:#fff;border:1.5px solid var(--border);color:var(--text-2);}
+  .qnav-grid button.answered{background:var(--green-bg);border-color:var(--green);color:var(--green-dark);}
+  .qnav-grid button.flagged{background:var(--amber-bg);border-color:var(--amber);color:#8a5a00;}
+  .qnav-grid button.current{outline:2.5px solid var(--navy);outline-offset:1px;}
+  .submit-btn-side{width:100%;background:var(--navy);color:#fff;font-weight:700;padding:13px;border-radius:10px;font-size:14px;}
+
+  /* ---------- Modals ---------- */
+  .modal-overlay{position:fixed;inset:0;background:rgba(17,24,39,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .modal-overlay.active{display:flex;}
+  .modal-box{background:#fff;border-radius:var(--radius-lg);padding:30px;max-width:420px;width:100%;text-align:center;}
+  .modal-box .icon{font-size:38px;margin-bottom:10px;}
+  .modal-box h3{font-size:19px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+  .modal-box p{font-size:14px;color:var(--text-2);margin-bottom:20px;}
+  .modal-actions{display:flex;gap:10px;}
+  .modal-actions button{flex:1;padding:12px;border-radius:10px;font-weight:700;font-size:14px;}
+
+  /* ---------- Results screen ---------- */
+  #screen-results .wrap{max-width:900px;margin:0 auto;padding:40px 20px 80px;}
+  .result-hero{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:36px;text-align:center;margin-bottom:24px;}
+  .score-ring{width:170px;height:170px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;position:relative;}
+  .score-ring .inner{width:136px;height:136px;background:#fff;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-ring .inner .pct{font-size:34px;font-weight:800;color:var(--navy);}
+  .score-ring .inner .lbl{font-size:11px;color:var(--text-3);text-transform:uppercase;font-weight:700;}
+  .pass-pill{display:inline-block;padding:8px 20px;border-radius:999px;font-weight:800;font-size:14px;margin-bottom:6px;}
+  .pass-pill.pass{background:var(--green-bg);color:var(--green-dark);}
+  .pass-pill.fail{background:var(--red-bg);color:#a11d21;}
+  .result-sub{color:var(--text-2);font-size:14px;}
+
+  .domain-breakdown{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:26px;margin-bottom:24px;}
+  .domain-breakdown h3{font-size:16px;font-weight:800;color:var(--navy);margin-bottom:18px;}
+  .db-row{margin-bottom:16px;}
+  .db-row .db-top{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px;color:var(--text-1);font-weight:600;}
+  .db-bar-track{height:10px;background:var(--bg);border-radius:999px;overflow:hidden;}
+  .db-bar-fill{height:100%;border-radius:999px;background:var(--green);}
+  .db-bar-fill.low{background:var(--red);}
+  .db-bar-fill.mid{background:var(--amber);}
+
+  .result-actions{display:flex;gap:14px;}
+  .result-actions button{flex:1;padding:15px;border-radius:12px;font-weight:700;font-size:14.5px;}
+
+  /* ---------- Review screen ---------- */
+  #screen-review .review-header{background:var(--navy);color:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20;flex-wrap:wrap;gap:10px;}
+  .review-wrap{max-width:820px;margin:0 auto;padding:28px 20px 80px;}
+  .filter-row{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+  .filter-chip{background:#fff;border:1.5px solid var(--border);padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;color:var(--text-2);}
+  .filter-chip.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .review-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:22px;margin-bottom:16px;}
+  .review-card .rtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;}
+  .status-chip{font-size:11px;font-weight:800;padding:4px 12px;border-radius:999px;text-transform:uppercase;}
+  .status-chip.correct{background:var(--green-bg);color:var(--green-dark);}
+  .status-chip.incorrect{background:var(--red-bg);color:#a11d21;}
+  .status-chip.skipped{background:#F3F4F6;color:var(--text-2);}
+  .review-card .rq{font-weight:600;font-size:15px;margin-bottom:14px;}
+  .r-opt{border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:8px;font-size:13.5px;display:flex;gap:8px;align-items:flex-start;}
+  .r-opt.correctAns{border-color:var(--green);background:var(--green-bg);}
+  .r-opt.wrongPicked{border-color:var(--red);background:var(--red-bg);}
+  .r-explain{background:var(--bg);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text-2);margin-top:10px;border-left:3px solid var(--blue);}
+  .r-explain b{color:var(--navy);}
+
+  @media (max-width:900px){
+    .exam-layout{grid-template-columns:1fr;}
+    .sidebar{position:static;order:-1;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= INTRO SCREEN ================= -->
+<section id="screen-intro" class="screen active">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> K21 Academy</div>
+    <div class="badge">Microsoft 365 Fundamentals · Module 2</div>
+  </div>
+  <div class="wrap">
+    <div class="intro-hero">
+      <span class="eyebrow">🧠 Mock Test Simulator</span>
+      <h1>Microsoft 365 Security Principles</h1>
+      <p>Module 2 — Practice in a realistic exam environment with a timer, question navigator, flagging, and instant feedback after submission.</p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><div class="label">Questions</div><div class="value">20</div></div>
+      <div class="stat-card"><div class="label">Time Limit</div><div class="value">20 Min</div></div>
+      <div class="stat-card"><div class="label">Passing Score</div><div class="value">70%</div></div>
+      <div class="stat-card"><div class="label">Question Type</div><div class="value">Single Select</div></div>
+    </div>
+
+    <div class="rules-card">
+      <h3>⚠ Exam Rules — Read Before Starting</h3>
+      <ul>
+        <li>Do NOT switch tabs or minimize the browser — your exam will be paused and a warning issued.</li>
+        <li>3 tab-switch warnings will automatically end and submit your exam.</li>
+        <li>Each question has exactly one correct answer. Partial credit is not given.</li>
+        <li>You can flag questions for review and return to them any time before submitting.</li>
+        <li>Once submitted, answers cannot be changed.</li>
+      </ul>
+    </div>
+
+    <button class="btn-primary" onclick="startExam()">▶ Start Exam Now</button>
+  </div>
+</section>
+
+<!-- ================= EXAM SCREEN ================= -->
+<section id="screen-exam" class="screen">
+  <div class="exam-header">
+    <div class="left">
+      <span class="title">K21 · Microsoft 365 Security Principles (M2)</span>
+    </div>
+    <div class="stats">
+      <span>Answered <b id="hdrAnswered">0/20</b></span>
+      <span>Flagged <b id="hdrFlagged">0</b></span>
+    </div>
+    <div class="timer-pill" id="timerPill">⏱ 20:00</div>
+  </div>
+
+  <div class="exam-layout">
+    <div class="exam-main">
+      <div class="q-meta">
+        <span class="q-count">Question <b id="qNum">1</b> of 20</span>
+        <span class="domain-chip" id="qDomain">—</span>
+        <button class="flag-btn" id="flagBtn" onclick="toggleFlag()">🚩 Flag for review</button>
+      </div>
+
+      <div class="question-card">
+        <div class="question-text" id="qText">Loading...</div>
+        <div id="qOptions"></div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-prev" id="btnPrev" onclick="prevQuestion()">← Prev</button>
+        <button class="btn-next" id="btnNext" onclick="nextQuestion()">Next →</button>
+        <button class="btn-submit-inline" id="btnSubmitInline" onclick="requestSubmit()">Submit Exam →</button>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <h4>Progress</h4>
+        <div class="progress-row"><span>Answered</span><b id="sideAnswered">0 / 20</b></div>
+        <div class="progress-row"><span>Unanswered</span><b id="sideUnanswered">20</b></div>
+        <div class="progress-row"><span>Flagged</span><b id="sideFlagged">0</b></div>
+      </div>
+      <div class="sidebar-card">
+        <h4>Question Navigator</h4>
+        <div class="qnav-grid" id="qnavGrid"></div>
+        <div class="legend">
+          <span><i style="background:var(--navy);"></i>Current</span>
+          <span><i style="background:var(--green-bg);border:1px solid var(--green);"></i>Answered</span>
+          <span><i style="background:var(--amber-bg);border:1px solid var(--amber);"></i>Flagged</span>
+          <span><i style="background:#fff;border:1px solid var(--border);"></i>Unanswered</span>
+        </div>
+      </div>
+      <button class="submit-btn-side" onclick="requestSubmit()">Submit Exam →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESULTS SCREEN ================= -->
+<section id="screen-results" class="screen">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> K21 Academy</div>
+    <div class="badge">Results</div>
+  </div>
+  <div class="wrap">
+    <div class="result-hero">
+      <div class="score-ring" id="scoreRing">
+        <div class="inner">
+          <div class="pct" id="scorePct">0%</div>
+          <div class="lbl">Score</div>
+        </div>
+      </div>
+      <div class="pass-pill" id="passPill">—</div>
+      <div class="result-sub" id="resultSub">You scored 0 out of 20 questions correctly.</div>
+    </div>
+
+    <div class="domain-breakdown">
+      <h3>📊 Domain-wise Breakdown</h3>
+      <div id="domainBreakdownBody"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-secondary" style="flex:1;" onclick="retakeExam()">↺ Retake Exam</button>
+      <button class="btn-primary" style="flex:1;box-shadow:none;" onclick="openReview()">🔍 Review All Questions</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REVIEW SCREEN ================= -->
+<section id="screen-review" class="screen">
+  <div class="review-header">
+    <div class="brand"><span class="dot"></span> Review Mode — Microsoft 365 Security Principles M2</div>
+    <button class="btn-secondary" onclick="backToResults()">← Back to Results</button>
+  </div>
+  <div class="review-wrap">
+    <div class="filter-row">
+      <button class="filter-chip active" data-filter="all" onclick="setReviewFilter('all')">All (20)</button>
+      <button class="filter-chip" data-filter="correct" onclick="setReviewFilter('correct')">Correct</button>
+      <button class="filter-chip" data-filter="incorrect" onclick="setReviewFilter('incorrect')">Incorrect</button>
+      <button class="filter-chip" data-filter="skipped" onclick="setReviewFilter('skipped')">Skipped</button>
+    </div>
+    <div id="reviewList"></div>
+  </div>
+</section>
+
+<!-- ================= MODALS ================= -->
+<div class="modal-overlay" id="tabWarnModal">
+  <div class="modal-box">
+    <div class="icon">🚨</div>
+    <h3>You Left the Exam!</h3>
+    <p id="tabWarnText">Switching tabs or minimizing the browser is not allowed during the exam.</p>
+    <div class="modal-actions">
+      <button class="btn-primary" style="box-shadow:none;" onclick="closeTabWarn()">Return to Exam</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="submitModal">
+  <div class="modal-box">
+    <div class="icon">📤</div>
+    <h3>Submit Exam?</h3>
+    <p id="submitModalText">You still have unanswered questions. Once submitted, you cannot change your answers.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeSubmitModal()">Cancel</button>
+      <button class="btn-primary" style="box-shadow:none;background:var(--red);color:#fff;" onclick="finalSubmit()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   QUESTION BANK — Microsoft 365 Security Principles (Module 2)
+   ========================================================= */
+const QUESTIONS = [
+{ id:"q001", domain:"The Zero Trust Security Model", type:"single", correct_count:1,
+  question:"What are the three core principles of the Zero Trust security model?",
+  options:[
+    {id:"a",text:"Trust by Default, Verify Occasionally, and Assume Safety"},
+    {id:"b",text:"Verify Explicitly, Use Least Privilege, and Assume Breach"},
+    {id:"c",text:"Perimeter Defense, Password Complexity, and Annual Audits"},
+    {id:"d",text:"Single Sign-On, Multi-Factor Authentication, and Encryption Only"}
+  ], correct:["b"],
+  explanation:"Zero Trust rests on three core principles: Verify Explicitly, Use Least Privilege, and Assume Breach — together summarized as 'never trust, always verify.'" },
+
+{ id:"q002", domain:"The Zero Trust Security Model", type:"single", correct_count:1,
+  question:"In the traditional 'castle-and-moat' perimeter security model, how is trust typically granted?",
+  options:[
+    {id:"a",text:"Trust is granted based on continuous verification of every request regardless of network location"},
+    {id:"b",text:"Trust is never granted under any circumstances, even for internal traffic"},
+    {id:"c",text:"Trust is granted only after a device passes a health check, regardless of network location"},
+    {id:"d",text:"Trust is granted based on location — being inside the network is trusted, while being outside is blocked"}
+  ], correct:["d"],
+  explanation:"The traditional perimeter model grants trust by location: anything inside the network is trusted, and anything outside is blocked, with only a strong outer wall (firewall/VPN) guarding the edge." },
+
+{ id:"q003", domain:"The Zero Trust Security Model", type:"single", correct_count:1,
+  question:"Why does the traditional perimeter security model break down in a modern cloud, mobile, and remote-work environment?",
+  options:[
+    {id:"a",text:"Because cloud, mobile, and remote work erase the clear idea of 'inside' versus 'outside' the network that the perimeter model depends on"},
+    {id:"b",text:"Because perimeter security has never worked in any environment, cloud or on-premises"},
+    {id:"c",text:"Because Zero Trust requires a physical office perimeter to function"},
+    {id:"d",text:"Because firewalls and VPNs are no longer technically possible to deploy"}
+  ], correct:["a"],
+  explanation:"Cloud services, mobile devices, and remote work erase the clear boundary between 'inside' and 'outside' the network that the perimeter model relies on, which is why Zero Trust is built for the cloud instead." },
+
+{ id:"q004", domain:"The Zero Trust Security Model", type:"single", correct_count:1,
+  question:"What does the Zero Trust principle of 'Use Least Privilege' mean in practice?",
+  options:[
+    {id:"a",text:"Grant every user standing full administrative access to simplify management"},
+    {id:"b",text:"Grant access based solely on which department a user belongs to, regardless of task"},
+    {id:"c",text:"Grant just-enough, just-in-time access — never more than the task requires"},
+    {id:"d",text:"Grant permanent, unrestricted access once a user successfully signs in"}
+  ], correct:["c"],
+  explanation:"Least Privilege means granting just-enough, just-in-time access — never more than what a specific task actually requires." },
+
+{ id:"q005", domain:"The Zero Trust Security Model", type:"single", correct_count:1,
+  question:"What does the Zero Trust principle of 'Assume Breach' mean in practice?",
+  options:[
+    {id:"a",text:"Assume that no breach could ever realistically occur, so monitoring is unnecessary"},
+    {id:"b",text:"Assume that only external users can ever pose a security risk"},
+    {id:"c",text:"Assume that encryption is unnecessary once a user has authenticated"},
+    {id:"d",text:"Assume attackers may already be inside the environment, so segment, encrypt, and monitor everything accordingly"}
+  ], correct:["d"],
+  explanation:"Assume Breach means operating as though attackers may already be inside the environment, so systems are segmented, encrypted, and continuously monitored rather than trusted by default." },
+
+{ id:"q006", domain:"The Zero Trust Security Model", type:"single", correct_count:1,
+  question:"In Microsoft's Zero Trust implementation for Microsoft 365, which component acts as the central policy engine that Defender and Information Protection help enforce across?",
+  options:[
+    {id:"a",text:"A physical network firewall alone"},
+    {id:"b",text:"Conditional Access"},
+    {id:"c",text:"A single static password policy"},
+    {id:"d",text:"An unmonitored VPN connection"}
+  ], correct:["b"],
+  explanation:"Conditional Access is the central policy engine in Microsoft's Zero Trust model, using signals from identity, device, and risk, while Defender and Information Protection help enforce those policies." },
+
+{ id:"q007", domain:"The Zero Trust Security Model", type:"single", correct_count:1,
+  question:"Across how many deployment pillars does Microsoft apply Zero Trust (such as Identity, Endpoints, Apps, Data, Infrastructure, and Network)?",
+  options:[
+    {id:"a",text:"Three pillars"},
+    {id:"b",text:"A single, unified pillar with no further breakdown"},
+    {id:"c",text:"Six pillars"},
+    {id:"d",text:"Ten pillars"}
+  ], correct:["c"],
+  explanation:"Microsoft applies Zero Trust across six deployment pillars: Identity, Endpoints, Apps, Data, Infrastructure, and Network." },
+
+{ id:"q008", domain:"Authentication Methods", type:"single", correct_count:1,
+  question:"Why are passwords considered the weakest authentication method when used alone?",
+  options:[
+    {id:"a",text:"Because they are easy to phish, reuse across sites, or guess, compared to stronger methods"},
+    {id:"b",text:"Because passwords are technically incompatible with cloud-based services"},
+    {id:"c",text:"Because passwords cannot be used together with any other authentication factor"},
+    {id:"d",text:"Because passwords are always randomly generated and impossible to remember"}
+  ], correct:["a"],
+  explanation:"Passwords alone are considered the weakest authentication factor because they are relatively easy to phish, reuse across multiple sites, or guess compared to stronger methods." },
+
+{ id:"q009", domain:"Authentication Methods", type:"single", correct_count:1,
+  question:"What does Multi-Factor Authentication (MFA) add on top of a password to reduce the risk of account compromise?",
+  options:[
+    {id:"a",text:"A requirement to change the password every single day"},
+    {id:"b",text:"A requirement that removes the need for any password at all in every scenario"},
+    {id:"c",text:"A rule that disables the user's account permanently after one sign-in"},
+    {id:"d",text:"A second verification factor, such as an app-based approval, SMS code, or one-time code, in addition to the password"}
+  ], correct:["d"],
+  explanation:"MFA adds a second verification factor — such as an Authenticator app approval, SMS code, or one-time code — on top of the password, which blocks most password-only attacks." },
+
+{ id:"q010", domain:"Authentication Methods", type:"single", correct_count:1,
+  question:"What defines a 'passwordless' sign-in method, such as FIDO2 security keys, Windows Hello, or the Microsoft Authenticator app?",
+  options:[
+    {id:"a",text:"It requires typing an even longer and more complex password than usual"},
+    {id:"b",text:"It allows a user to sign in without ever entering a traditional password at all"},
+    {id:"c",text:"It is only usable for signing into non-Microsoft services"},
+    {id:"d",text:"It requires exactly three separate passwords entered in sequence"}
+  ], correct:["b"],
+  explanation:"Passwordless sign-in methods let a user authenticate without ever entering a traditional password, relying instead on hardware keys, biometrics, or an authenticator app." },
+
+{ id:"q011", domain:"Authentication Methods", type:"single", correct_count:1,
+  question:"What is the primary purpose of Self-Service Password Reset (SSPR)?",
+  options:[
+    {id:"a",text:"It lets users securely reset their own forgotten password without contacting the helpdesk"},
+    {id:"b",text:"It automatically emails a user's current password to them in plain text"},
+    {id:"c",text:"It permanently locks a user's account after any password reset attempt"},
+    {id:"d",text:"It removes the need for any authentication whatsoever going forward"}
+  ], correct:["a"],
+  explanation:"SSPR lets users securely reset their own forgotten password themselves, reducing helpdesk tickets without ever exposing a plaintext password." },
+
+{ id:"q012", domain:"Authentication Methods", type:"single", correct_count:1,
+  question:"Among common MFA methods, why is SMS/voice/OTP typically considered the weakest MFA option compared to alternatives like the Microsoft Authenticator app or FIDO2 keys?",
+  options:[
+    {id:"a",text:"Because SMS/voice codes cannot ever be received on a mobile phone"},
+    {id:"b",text:"Because SMS/voice is the only MFA method resistant to phishing"},
+    {id:"c",text:"Because SMS/voice-based codes are more convenient but generally offer a lower level of security assurance than app-based or hardware-based methods"},
+    {id:"d",text:"Because SMS/voice MFA requires a hardware security key to function at all"}
+  ], correct:["c"],
+  explanation:"SMS, voice, and OTP codes are convenient but generally offer weaker security assurance than app-based (Authenticator) or hardware-based (FIDO2) methods, making them the weakest common MFA option." },
+
+{ id:"q013", domain:"Authentication Methods", type:"single", correct_count:1,
+  question:"What distinguishes FIDO2 security keys as a passwordless authentication method?",
+  options:[
+    {id:"a",text:"They require the user to memorize and type a traditional password each time"},
+    {id:"b",text:"They are hardware keys that provide phishing-resistant, passwordless sign-in"},
+    {id:"c",text:"They can only be used together with SMS-based codes, never alone"},
+    {id:"d",text:"They are a purely software-based method with no physical hardware component"}
+  ], correct:["b"],
+  explanation:"FIDO2 security keys are physical hardware keys that enable phishing-resistant, passwordless sign-in, distinguishing them from software-only or password-dependent methods." },
+
+{ id:"q014", domain:"Authentication Methods", type:"single", correct_count:1,
+  question:"What does Windows Hello allow a user to do when signing in to a Windows device?",
+  options:[
+    {id:"a",text:"Sign in only by reciting a spoken passphrase over a microphone"},
+    {id:"b",text:"Sign in exclusively through a physical smart card with no biometric option"},
+    {id:"c",text:"Sign in only after disabling all other authentication methods system-wide"},
+    {id:"d",text:"Sign in using face recognition, a fingerprint, or a PIN instead of typing a password"}
+  ], correct:["d"],
+  explanation:"Windows Hello lets a user sign in to a Windows device using face recognition, a fingerprint, or a PIN, rather than typing a traditional password." },
+
+{ id:"q015", domain:"Authorization & Threat Protection", type:"single", correct_count:1,
+  question:"What does Role-Based Access Control (RBAC) allow administrators to do?",
+  options:[
+    {id:"a",text:"Assign permissions to users through roles, rather than configuring permissions individually for each user"},
+    {id:"b",text:"Grant every signed-in user identical permissions regardless of their role"},
+    {id:"c",text:"Eliminate the need for any permission structure whatsoever"},
+    {id:"d",text:"Assign permissions solely based on a user's physical office location"}
+  ], correct:["a"],
+  explanation:"RBAC lets administrators assign permissions through roles — linking a user or group to a role — rather than configuring permissions individually for every single user." },
+
+{ id:"q016", domain:"Authorization & Threat Protection", type:"single", correct_count:1,
+  question:"In RBAC, what does 'scope' refer to?",
+  options:[
+    {id:"a",text:"The total number of licenses purchased by an organization"},
+    {id:"b",text:"The physical size of a company's data center"},
+    {id:"c",text:"Limiting a role's permissions to a specific resource, group, or administrative unit, rather than the entire tenant"},
+    {id:"d",text:"A setting that has no effect on which resources a role can manage"}
+  ], correct:["c"],
+  explanation:"Scope limits a role's permissions to a specific resource, group, or administrative unit instead of the whole tenant, supporting the least-privilege principle." },
+
+{ id:"q017", domain:"Authorization & Threat Protection", type:"single", correct_count:1,
+  question:"Which Microsoft Defender XDR component is specifically focused on protecting devices through detection, investigation, and automated response?",
+  options:[
+    {id:"a",text:"Defender for Identity"},
+    {id:"b",text:"Defender for Office 365"},
+    {id:"c",text:"Defender for Cloud Apps"},
+    {id:"d",text:"Defender for Endpoint"}
+  ], correct:["d"],
+  explanation:"Defender for Endpoint protects devices through detection, investigation, and automated response, as one of the four components of Defender XDR." },
+
+{ id:"q018", domain:"Authorization & Threat Protection", type:"single", correct_count:1,
+  question:"Which Microsoft Defender XDR component detects identity-based attacks using signals from Entra ID and Active Directory?",
+  options:[
+    {id:"a",text:"Defender for Cloud Apps"},
+    {id:"b",text:"Defender for Identity"},
+    {id:"c",text:"Defender for Office 365"},
+    {id:"d",text:"Defender for Endpoint"}
+  ], correct:["b"],
+  explanation:"Defender for Identity detects identity-based attacks using signals from Microsoft Entra ID and Active Directory." },
+
+{ id:"q019", domain:"Authorization & Threat Protection", type:"single", correct_count:1,
+  question:"Which Microsoft Defender XDR component protects email and collaboration tools from phishing and malware?",
+  options:[
+    {id:"a",text:"Defender for Cloud Apps"},
+    {id:"b",text:"Defender for Endpoint"},
+    {id:"c",text:"Defender for Office 365"},
+    {id:"d",text:"Defender for Identity"}
+  ], correct:["c"],
+  explanation:"Defender for Office 365 protects email and collaboration tools from phishing and malware." },
+
+{ id:"q020", domain:"Authorization & Threat Protection", type:"single", correct_count:1,
+  question:"What does Microsoft Secure Score provide to an organization?",
+  options:[
+    {id:"a",text:"A 0–100% score of the organization's security posture, along with prioritized improvement actions and progress tracking over time"},
+    {id:"b",text:"A fixed score that never changes regardless of any configuration changes made"},
+    {id:"c",text:"A score that only reflects the number of licenses purchased, unrelated to security configuration"},
+    {id:"d",text:"A score visible only to Microsoft support engineers, never to the organization itself"}
+  ], correct:["a"],
+  explanation:"Microsoft Secure Score gives a 0–100% measure of an organization's security posture, along with prioritized improvement actions, points gained per recommendation, and progress tracking over time and against peers." }
+];
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const TOTAL_TIME = 20 * 60; // seconds
+let timeLeft = TOTAL_TIME;
+let timerInterval = null;
+let currentIndex = 0;
+let answers = {};      // { questionId: optionId }
+let flagged = new Set();
+let tabWarnings = 0;
+let examSubmitted = false;
+let shuffledQuestions = []; // each item: {...question, shuffledOptions:[...]}
+
+/* ---------- Fisher-Yates shuffle ---------- */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function buildShuffledQuestions(){
+  shuffledQuestions = QUESTIONS.map(q => ({
+    ...q,
+    shuffledOptions: shuffle(q.options)
+  }));
+}
+
+/* =========================================================
+   SCREEN NAVIGATION
+   ========================================================= */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function startExam(){
+  buildShuffledQuestions();
+  answers = {};
+  flagged = new Set();
+  tabWarnings = 0;
+  examSubmitted = false;
+  currentIndex = 0;
+  timeLeft = TOTAL_TIME;
+  renderNavGrid();
+  renderQuestion();
+  showScreen('screen-exam');
+  startTimer();
+}
+
+/* =========================================================
+   TIMER
+   ========================================================= */
+function startTimer(){
+  clearInterval(timerInterval);
+  updateTimerDisplay();
+  timerInterval = setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    if(timeLeft<=0){
+      clearInterval(timerInterval);
+      finalSubmit(true);
+    }
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m = Math.floor(timeLeft/60).toString().padStart(2,'0');
+  const s = (timeLeft%60).toString().padStart(2,'0');
+  const pill = document.getElementById('timerPill');
+  pill.textContent = `⏱ ${m}:${s}`;
+  pill.classList.remove('warn','danger');
+  if(timeLeft<=60) pill.classList.add('danger');
+  else if(timeLeft<=300) pill.classList.add('warn');
+}
+
+/* =========================================================
+   RENDER QUESTION
+   ========================================================= */
+function renderQuestion(){
+  const q = shuffledQuestions[currentIndex];
+  document.getElementById('qNum').textContent = currentIndex+1;
+  document.getElementById('qDomain').textContent = q.domain;
+  document.getElementById('qText').textContent = q.question;
+  document.getElementById('flagBtn').classList.toggle('flagged', flagged.has(q.id));
+  document.getElementById('flagBtn').innerHTML = flagged.has(q.id) ? '🚩 Flagged' : '🚩 Flag for review';
+
+  const container = document.getElementById('qOptions');
+  container.innerHTML = '';
+  const selected = answers[q.id];
+  q.shuffledOptions.forEach((opt, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'option' + (selected===opt.id ? ' selected' : '');
+    const letter = String.fromCharCode(65+idx); // display label A/B/C/D based on shuffled position
+    div.innerHTML = `<div class="radio"></div><div class="opt-text"><span class="opt-label">${letter}.</span>${opt.text}</div>`;
+    div.onclick = ()=>selectAnswer(q.id, opt.id);
+    container.appendChild(div);
+  });
+
+  updateHeaderStats();
+  renderNavGrid();
+
+  const isLast = currentIndex === shuffledQuestions.length - 1;
+  const isFirst = currentIndex === 0;
+  document.getElementById('btnNext').style.display = isLast ? 'none' : '';
+  document.getElementById('btnPrev').style.visibility = isFirst ? 'hidden' : 'visible';
+}
+
+function selectAnswer(qId, optId){
+  answers[qId] = optId;
+  renderQuestion();
+}
+
+function toggleFlag(){
+  const q = shuffledQuestions[currentIndex];
+  if(flagged.has(q.id)) flagged.delete(q.id);
+  else flagged.add(q.id);
+  renderQuestion();
+}
+
+function prevQuestion(){
+  if(currentIndex>0){ currentIndex--; renderQuestion(); }
+}
+function nextQuestion(){
+  if(currentIndex<shuffledQuestions.length-1){ currentIndex++; renderQuestion(); }
+}
+
+/* =========================================================
+   HEADER / SIDEBAR STATS
+   ========================================================= */
+function updateHeaderStats(){
+  const answeredCount = Object.keys(answers).length;
+  const total = shuffledQuestions.length;
+  document.getElementById('hdrAnswered').textContent = `${answeredCount}/${total}`;
+  document.getElementById('hdrFlagged').textContent = flagged.size;
+  document.getElementById('sideAnswered').textContent = `${answeredCount} / ${total}`;
+  document.getElementById('sideUnanswered').textContent = total - answeredCount;
+  document.getElementById('sideFlagged').textContent = flagged.size;
+}
+
+function renderNavGrid(){
+  const grid = document.getElementById('qnavGrid');
+  grid.innerHTML = '';
+  shuffledQuestions.forEach((q, idx)=>{
+    const btn = document.createElement('button');
+    let cls = '';
+    if(idx===currentIndex) cls += ' current';
+    if(flagged.has(q.id)) cls += ' flagged';
+    else if(answers[q.id]) cls += ' answered';
+    btn.className = cls.trim();
+    btn.textContent = idx+1;
+    btn.onclick = ()=>{ currentIndex = idx; renderQuestion(); };
+    grid.appendChild(btn);
+  });
+}
+
+/* =========================================================
+   TAB SWITCH DETECTION
+   ========================================================= */
+document.addEventListener('visibilitychange', ()=>{
+  if(document.hidden && !examSubmitted && document.getElementById('screen-exam').classList.contains('active')){
+    tabWarnings++;
+    if(tabWarnings>=3){
+      document.getElementById('tabWarnText').textContent = "You've received 3 tab-switch warnings. Your exam has been automatically submitted.";
+      document.getElementById('tabWarnModal').classList.add('active');
+      setTimeout(()=>{ finalSubmit(true); }, 1400);
+    } else {
+      document.getElementById('tabWarnText').textContent = `Switching tabs or minimizing the browser is not allowed during the exam. Warning ${tabWarnings} of 3 — after 3 warnings your exam will auto-submit.`;
+      document.getElementById('tabWarnModal').classList.add('active');
+    }
+  }
+});
+function closeTabWarn(){
+  document.getElementById('tabWarnModal').classList.remove('active');
+}
+
+/* =========================================================
+   SUBMIT FLOW
+   ========================================================= */
+function requestSubmit(){
+  const answeredCount = Object.keys(answers).length;
+  const total = shuffledQuestions.length;
+  const unanswered = total - answeredCount;
+  document.getElementById('submitModalText').textContent = unanswered>0
+    ? `You still have ${unanswered} unanswered question${unanswered>1?'s':''}. Once submitted, you cannot change your answers.`
+    : `All questions answered. Once submitted, you cannot change your answers.`;
+  document.getElementById('submitModal').classList.add('active');
+}
+function closeSubmitModal(){
+  document.getElementById('submitModal').classList.remove('active');
+}
+
+let lastResults = null;
+
+function finalSubmit(auto){
+  if(examSubmitted) return;
+  examSubmitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submitModal').classList.remove('active');
+  document.getElementById('tabWarnModal').classList.remove('active');
+  computeResults();
+  renderResults();
+  showScreen('screen-results');
+}
+
+/* =========================================================
+   SCORING
+   ========================================================= */
+function computeResults(){
+  const domainStats = {}; // domain -> {correct, total}
+  let correctCount = 0;
+  shuffledQuestions.forEach(q=>{
+    if(!domainStats[q.domain]) domainStats[q.domain] = {correct:0,total:0};
+    domainStats[q.domain].total++;
+    const userAns = answers[q.id];
+    const isCorrect = userAns && q.correct.includes(userAns);
+    if(isCorrect){ correctCount++; domainStats[q.domain].correct++; }
+  });
+  const total = shuffledQuestions.length;
+  const pct = Math.round((correctCount/total)*100);
+  lastResults = { correctCount, total, pct, pass: pct>=70, domainStats };
+}
+
+/* =========================================================
+   RESULTS RENDER
+   ========================================================= */
+function renderResults(){
+  const r = lastResults;
+  document.getElementById('scorePct').textContent = r.pct + '%';
+  const ringColor = r.pass ? '#8DC63F' : '#E5484D';
+  document.getElementById('scoreRing').style.background =
+    `conic-gradient(${ringColor} ${r.pct*3.6}deg, #E8EAEE 0deg)`;
+
+  const passPill = document.getElementById('passPill');
+  passPill.textContent = r.pass ? '✓ PASS' : '✕ FAIL';
+  passPill.className = 'pass-pill ' + (r.pass ? 'pass' : 'fail');
+
+  document.getElementById('resultSub').textContent =
+    `You scored ${r.correctCount} out of ${r.total} questions correctly. Passing score is 70%.`;
+
+  const body = document.getElementById('domainBreakdownBody');
+  body.innerHTML = '';
+  Object.entries(r.domainStats).forEach(([domain, stat])=>{
+    const dpct = Math.round((stat.correct/stat.total)*100);
+    const barClass = dpct>=70 ? '' : (dpct>=40 ? 'mid' : 'low');
+    const row = document.createElement('div');
+    row.className = 'db-row';
+    row.innerHTML = `
+      <div class="db-top"><span>${domain}</span><span>${stat.correct}/${stat.total} (${dpct}%)</span></div>
+      <div class="db-bar-track"><div class="db-bar-fill ${barClass}" style="width:${dpct}%;"></div></div>
+    `;
+    body.appendChild(row);
+  });
+}
+
+function retakeExam(){
+  startExam();
+}
+
+/* =========================================================
+   REVIEW MODE
+   ========================================================= */
+let reviewFilter = 'all';
+
+function openReview(){
+  reviewFilter = 'all';
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelector('.filter-chip[data-filter="all"]').classList.add('active');
+  renderReview();
+  showScreen('screen-review');
+}
+function backToResults(){
+  showScreen('screen-results');
+}
+function setReviewFilter(f){
+  reviewFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelector(`.filter-chip[data-filter="${f}"]`).classList.add('active');
+  renderReview();
+}
+
+function renderReview(){
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  shuffledQuestions.forEach((q, idx)=>{
+    const userAns = answers[q.id];
+    const isCorrect = userAns && q.correct.includes(userAns);
+    const isSkipped = !userAns;
+    let status = isSkipped ? 'skipped' : (isCorrect ? 'correct' : 'incorrect');
+
+    if(reviewFilter!=='all' && reviewFilter!==status) return;
+
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    let optsHtml = '';
+    q.shuffledOptions.forEach((opt,i)=>{
+      const letter = String.fromCharCode(65+i);
+      let cls = '';
+      if(q.correct.includes(opt.id)) cls = 'correctAns';
+      else if(userAns===opt.id && !isCorrect) cls = 'wrongPicked';
+      let tag = '';
+      if(q.correct.includes(opt.id)) tag = ' ✓ Correct answer';
+      else if(userAns===opt.id) tag = ' ✕ Your answer';
+      optsHtml += `<div class="r-opt ${cls}"><span><b>${letter}.</b> ${opt.text}${tag ? '<br><small>'+tag+'</small>' : ''}</span></div>`;
+    });
+
+    card.innerHTML = `
+      <div class="rtop">
+        <span class="q-count">Question ${idx+1} · ${q.domain}</span>
+        <span class="status-chip ${status}">${status}</span>
+      </div>
+      <div class="rq">${q.question}</div>
+      ${optsHtml}
+      <div class="r-explain"><b>Explanation:</b> ${q.explanation}</div>
+    `;
+    list.appendChild(card);
+  });
+
+  if(list.innerHTML===''){
+    list.innerHTML = `<div class="review-card" style="text-align:center;color:var(--text-3);">No questions match this filter.</div>`;
+  }
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+buildShuffledQuestions();
+</script>
+</body>
+</html>
